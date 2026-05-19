@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memuat berita...</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a56a8;
+    --primary-dark: #0f3d7a;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --bg: #f9fafb;
+    --white: #ffffff;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.07);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); }
+  header { background: var(--primary); color: white; padding: 0 1.5rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+  .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .site-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: white; }
+  .logo-icon { width: 38px; height: 38px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .logo-text .name { font-size: 15px; font-weight: 700; }
+  .logo-text .tagline { font-size: 11px; opacity: 0.75; }
+  .back-btn { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 13.5px; display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; transition: background 0.15s; }
+  .back-btn:hover { background: rgba(255,255,255,0.15); color: white; }
+
+  .article-wrap { max-width: 780px; margin: 2.5rem auto; padding: 0 1.5rem; }
+  .article-card { background: white; border-radius: var(--radius); box-shadow: var(--shadow-md); overflow: hidden; }
+  .article-hero-img { width: 100%; max-height: 420px; object-fit: cover; display: block; }
+  .article-body { padding: 2rem 2.5rem; }
+  .article-cat { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--primary); margin-bottom: 12px; }
+  .article-title { font-size: clamp(1.4rem, 3.5vw, 1.9rem); font-weight: 700; line-height: 1.3; margin-bottom: 1rem; }
+  .article-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); margin-bottom: 1.75rem; }
+  .meta-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
+  .meta-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+  .article-content { font-family: 'Lora', Georgia, serif; font-size: 17px; line-height: 1.85; color: #2d2d2d; }
+  .article-content p { margin-bottom: 1.25rem; }
+  .article-content h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.3rem; font-weight: 700; margin: 2rem 0 0.75rem; color: var(--text); }
+  .article-content h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+  .article-content img { max-width: 100%; border-radius: 8px; margin: 1rem 0; }
+  .article-content ul, .article-content ol { padding-left: 1.5rem; margin-bottom: 1.25rem; }
+  .article-content li { margin-bottom: 0.5rem; }
+  .article-content blockquote { border-left: 4px solid var(--primary); padding-left: 1.25rem; color: var(--muted); font-style: italic; margin: 1.5rem 0; }
+  .share-section { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+  .share-label { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .share-btn { padding: 7px 16px; border-radius: 8px; border: 1.5px solid var(--border); background: white; font-size: 13px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+  .share-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .related-section { max-width: 780px; margin: 2rem auto; padding: 0 1.5rem 3rem; }
+  .section-title { font-size: 18px; font-weight: 700; margin-bottom: 1.25rem; }
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+  .related-card { background: white; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; text-decoration: none; color: inherit; transition: box-shadow 0.2s; }
+  .related-card:hover { box-shadow: var(--shadow-md); }
+  .related-img { height: 130px; background: #e8f0fb; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+  .related-img img { width: 100%; height: 100%; object-fit: cover; }
+  .related-body { padding: 0.875rem; }
+  .related-cat { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--primary); margin-bottom: 4px; letter-spacing: 0.06em; }
+  .related-title { font-size: 13.5px; font-weight: 600; line-height: 1.4; }
+  .related-date { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .loading { text-align: center; padding: 5rem; }
+  .loading-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 1rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error-state { text-align: center; padding: 4rem 1.5rem; }
+  @media (max-width: 600px) { .article-body { padding: 1.25rem; } .article-content { font-size: 16px; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="site-logo" href="../../index.html">
+      <div class="logo-icon">🏛️</div>
+      <div class="logo-text">
+        <div class="name" id="site-name">Nama Instansi</div>
+        <div class="tagline" id="site-tagline">Portal Informasi Resmi</div>
+      </div>
+    </a>
+    <a class="back-btn" href="../../index.html">← Kembali ke Beranda</a>
+  </div>
+</header>
+
+<div id="article-container">
+  <div class="article-wrap">
+    <div class="article-card">
+      <div class="loading"><div class="loading-spinner"></div><p style="color:#6b7280">Memuat berita...</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="related-section" id="related-section" style="display:none">
+  <div class="section-title">Berita Lainnya</div>
+  <div class="related-grid" id="related-grid"></div>
+</div>
+
+<script src="../../public/assets/config.js"></script>
+<script>
+const cfg = typeof SITE_CONFIG !== 'undefined' ? SITE_CONFIG : {};
+
+// Apply branding
+if (cfg.name) {
+  document.getElementById('site-name').textContent = cfg.name;
+  document.getElementById('site-tagline').textContent = cfg.tagline || '';
+}
+
+// Get slug from URL: /public/berita/slug.html
+const slug = location.pathname.split('/').pop().replace('.html', '');
+
+async function loadArticle() {
+  try {
+    const owner  = cfg.github_owner  || '';
+    const repo   = cfg.github_repo   || '';
+    const branch = cfg.github_branch || 'main';
+
+    if (!owner || !repo) { renderError('Konfigurasi GitHub belum diisi di config.js'); return; }
+
+    const url = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/posts/${slug}.json?t=${Date.now()}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Berita tidak ditemukan (404)');
+    const post = await res.json();
+
+    renderArticle(post);
+    loadRelated(post.category, slug, owner, repo, branch);
+  } catch (e) {
+    renderError(e.message);
+  }
+}
+
+function renderArticle(p) {
+  document.title = p.title + ' — ' + (cfg.name || 'Berita Instansi');
+  const initials = (p.author || 'A').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+
+  document.getElementById('article-container').innerHTML = `
+    <div class="article-wrap">
+      <div class="article-card">
+        ${p.image ? `<img class="article-hero-img" src="${p.image}" alt="${p.title}">` : ''}
+        <div class="article-body">
+          <div class="article-cat">${p.category || 'Berita'}</div>
+          <h1 class="article-title">${p.title}</h1>
+          <div class="article-meta">
+            <div class="meta-item">
+              <div class="meta-avatar">${initials}</div>
+              <span>${p.author || 'Admin'}</span>
+            </div>
+            <div class="meta-item">📅 ${formatDate(p.date)}</div>
+            ${p.category ? `<div class="meta-item">🏷️ ${p.category}</div>` : ''}
+          </div>
+          <div class="article-content" id="article-content"></div>
+          <div class="share-section">
+            <span class="share-label">Bagikan:</span>
+            <button class="share-btn" onclick="shareWA()">WhatsApp</button>
+            <button class="share-btn" onclick="copyLink()">Salin Link</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  // Render konten — support HTML dan teks biasa
+  const contentEl = document.getElementById('article-content');
+  const body = p.body || p.content || '<p>Konten tidak tersedia.</p>';
+  // Jika plain text, bungkus tiap baris jadi paragraf
+  if (!body.includes('<')) {
+    contentEl.innerHTML = body.split('\n\n').map(para => `<p>${para.trim()}</p>`).join('');
+  } else {
+    contentEl.innerHTML = body;
+  }
+}
+
+function renderError(msg) {
+  document.getElementById('article-container').innerHTML = `
+    <div class="article-wrap">
+      <div class="article-card" style="padding:3rem;text-align:center">
+        <div style="font-size:3rem;margin-bottom:1rem">⚠️</div>
+        <h2 style="margin-bottom:0.5rem">Berita Tidak Ditemukan</h2>
+        <p style="color:#6b7280;margin-bottom:1.5rem">${msg}</p>
+        <a href="../../index.html" style="background:#1a56a8;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600">Kembali ke Beranda</a>
+      </div>
+    </div>`;
+}
+
+async function loadRelated(cat, currentSlug, owner, repo, branch) {
+  try {
+    const url = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/posts/index.json?t=${Date.now()}`;
+    const res = await fetch(url);
+    if (!res.ok) return;
+    const index = await res.json();
+    const related = (index.posts || [])
+      .filter(p => p.slug !== currentSlug && p.status === 'published' && p.category === cat)
+      .slice(0, 3);
+    if (!related.length) return;
+
+    document.getElementById('related-section').style.display = 'block';
+    document.getElementById('related-grid').innerHTML = related.map(p => `
+      <a class="related-card" href="${p.slug}.html">
+        <div class="related-img">${p.image ? `<img src="${p.image}" alt="${p.title}">` : '📰'}</div>
+        <div class="related-body">
+          <div class="related-cat">${p.category}</div>
+          <div class="related-title">${p.title}</div>
+          <div class="related-date">${formatDate(p.date)}</div>
+        </div>
+      </a>`).join('');
+  } catch(e) {}
+}
+
+function formatDate(d) {
+  if (!d) return '';
+  return new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function shareWA() { window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(document.title + ' ' + location.href)); }
+function copyLink() {
+  navigator.clipboard.writeText(location.href).then(() => alert('Link berhasil disalin!'));
+}
+
+loadArticle();
+</script>
+</body>
+</html>
