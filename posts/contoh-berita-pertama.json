@@ -1,0 +1,12 @@
+{
+  "slug": "contoh-berita-pertama",
+  "title": "Contoh Berita Pertama",
+  "excerpt": "Ini adalah contoh berita yang bisa Anda hapus setelah sistem berjalan.",
+  "body": "<p>Selamat datang di sistem CMS Berita Instansi. Artikel ini adalah contoh yang bisa Anda hapus atau edit melalui Admin Panel.</p><p>Untuk mulai menggunakan CMS, masuk ke <strong>/admin/index.html</strong> menggunakan GitHub Personal Access Token Anda.</p><h2>Cara Penggunaan</h2><p>Sistem ini menyimpan semua konten langsung di GitHub repository Anda. Setiap berita yang Anda tulis akan disimpan sebagai file JSON di folder <code>posts/</code> dan halaman HTML di folder <code>public/berita/</code>.</p>",
+  "category": "Pengumuman",
+  "status": "published",
+  "author": "Admin",
+  "date": "2025-01-01",
+  "image": "",
+  "updatedAt": "2025-01-01T00:00:00.000Z"
+}
